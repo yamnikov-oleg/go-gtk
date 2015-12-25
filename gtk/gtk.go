@@ -9482,11 +9482,11 @@ func (v *Widget) GetParentWindow() *gdk.Window {
 	C.gtk_widget_set_usize(v.GWidget, gint(width), gint(height))
 }*/
 
-func (v *Widget) SetEvents(events int) {
-	C.gtk_widget_set_events(v.GWidget, gint(events))
+func (v *Widget) SetEvents(events gdk.EventMask) {
+	C.gtk_widget_set_events(v.GWidget, gint(int(events)))
 }
-func (v *Widget) AddEvents(events int) {
-	C.gtk_widget_add_events(v.GWidget, gint(events))
+func (v *Widget) AddEvents(events gdk.EventMask) {
+	C.gtk_widget_add_events(v.GWidget, gint(int(events)))
 }
 
 // gtk_widget_set_extension_events
