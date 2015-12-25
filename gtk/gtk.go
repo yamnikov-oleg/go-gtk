@@ -1326,7 +1326,11 @@ func (v *Window) SetTypeHint(hint gdk.WindowTypeHint) {
 // gtk_window_set_frame_dimensions //deprecated since 2.24
 // gtk_window_set_has_frame  //deprecated since 2.24
 // gtk_window_set_mnemonic_modifier
-// gtk_window_set_skip_taskbar_hint
+
+func (v *Window) SetSkipTaskbarHint(setting bool) {
+	C.gtk_window_set_skip_taskbar_hint(WINDOW(v), gbool(setting))
+}
+
 // gtk_window_set_skip_pager_hint
 // gtk_window_set_urgency_hint
 
