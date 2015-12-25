@@ -2,7 +2,7 @@
 
 ## WHATS
 
-  Go bindings for GTK 
+  Go bindings for GTK
 
 ## SCREENSHOT
 
@@ -12,15 +12,6 @@
 
   To experiment with go-gtk, you can just compile and run the example
   program:
-
-    git clone  https://github.com/mattn/go-gtk
-    cd go-gtk
-    make install
-    cd example
-    make
-    ./demo/demo
-
-  Or
 
     go get github.com/mattn/go-gtk/gtk
 
@@ -64,7 +55,7 @@
 
 ## GOAL
 
-  Hopefully support following widgets and methods enough to run general application. 
+  Hopefully support following widgets and methods enough to run general application.
 
 (output of tools/gogtkinfo)
 
