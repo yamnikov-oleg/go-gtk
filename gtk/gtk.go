@@ -6,7 +6,8 @@ Go Bindings for Gtk+ 2. Support version 2.16 and later.
 package gtk
 
 // #include "gtk.go.h"
-// #cgo pkg-config: gtk+-2.0
+// #cgo pkg-config: gtk+-3.0
+// #cgo CPPFLAGS: -w
 import "C"
 import (
 	"fmt"
@@ -16,10 +17,10 @@ import (
 	"strings"
 	"unsafe"
 
-	"github.com/mattn/go-gtk/gdk"
-	"github.com/mattn/go-gtk/gdkpixbuf"
-	"github.com/mattn/go-gtk/glib"
-	"github.com/mattn/go-gtk/pango"
+	"github.com/yamnikov-oleg/go-gtk/gdk"
+	"github.com/yamnikov-oleg/go-gtk/gdkpixbuf"
+	"github.com/yamnikov-oleg/go-gtk/glib"
+	"github.com/yamnikov-oleg/go-gtk/pango"
 )
 
 func gint(v int) C.gint           { return C.gint(v) }
@@ -65,41 +66,43 @@ func FILE_CHOOSER(p *Widget) *C.GtkFileChooser      { return C.toGFileChooser(p.
 func FONT_SELECTION_DIALOG(p *FontSelectionDialog) *C.GtkFontSelectionDialog {
 	return C.toGFontSelectionDialog(p.GWidget)
 }
-func MISC(m *Misc) *C.GtkMisc                              { return C.toGMisc(m.GWidget) }
-func LABEL(p *Label) *C.GtkLabel                           { return C.toGLabel(p.GWidget) }
-func BUTTON(p *Button) *C.GtkButton                        { return C.toGButton(p.GWidget) }
-func SPIN_BUTTON(p *SpinButton) *C.GtkSpinButton           { return C.toGSpinButton(p.GWidget) }
-func RADIO_BUTTON(p *RadioButton) *C.GtkRadioButton        { return C.toGRadioButton(p.GWidget) }
-func FONT_BUTTON(p *FontButton) *C.GtkFontButton           { return C.toGFontButton(p.GWidget) }
-func LINK_BUTTON(p *LinkButton) *C.GtkLinkButton           { return C.toGLinkButton(p.GWidget) }
-func COMBO_BOX(p *ComboBox) *C.GtkComboBox                 { return C.toGComboBox(p.GWidget) }
-func COMBO_BOX_ENTRY(p *ComboBoxEntry) *C.GtkComboBoxEntry { return C.toGComboBoxEntry(p.GWidget) }
-func MESSAGE_DIALOG(p *MessageDialog) *C.GtkMessageDialog  { return C.toGMessageDialog(p.GWidget) }
-func COMBO_BOX_TEXT(p *ComboBoxText) *C.GtkComboBoxText    { return C.toGComboBoxText(p.GWidget) }
-func ACCESSIBLE(p *Accessible) *C.GtkAccessible            { return C.toGAccessible(unsafe.Pointer(p.Object)) }
-func BIN(p *Bin) *C.GtkBin                                 { return C.toGBin(p.GWidget) }
-func STATUSBAR(p *Statusbar) *C.GtkStatusbar               { return C.toGStatusbar(p.GWidget) }
-func INFO_BAR(p *InfoBar) *C.GtkInfoBar                    { return C.toGInfoBar(p.GWidget) }
-func FRAME(p *Frame) *C.GtkFrame                           { return C.toGFrame(p.GWidget) }
-func BOX(p *Box) *C.GtkBox                                 { return C.toGBox(p.GWidget) }
-func PANED(p *Paned) *C.GtkPaned                           { return C.toGPaned(p.GWidget) }
-func TOGGLE_BUTTON(p *ToggleButton) *C.GtkToggleButton     { return C.toGToggleButton(p.GWidget) }
-func ACCEL_LABEL(p *AccelLabel) *C.GtkAccelLabel           { return C.toGAccelLabel(p.GWidget) }
-func SCALEBUTTON(p *ScaleButton) *C.GtkScaleButton         { return C.toGScaleButton(p.GWidget) }
-func STYLE(p *Style) *C.GtkStyle                           { return p.GStyle }
-func ENTRY(p *Entry) *C.GtkEntry                           { return C.toGEntry(p.GWidget) }
-func ADJUSTMENT(p *Adjustment) *C.GtkAdjustment            { return p.GAdjustment }
-func TEXT_VIEW(p *TextView) *C.GtkTextView                 { return C.toGTextView(p.GWidget) }
-func TEXT_BUFFER(p unsafe.Pointer) *C.GtkTextBuffer        { return C.toGTextBuffer(p) }
-func TEXT_TAG(p unsafe.Pointer) *C.GtkTextTag              { return C.toGTextTag(p) }
-func MENU(p *Menu) *C.GtkMenu                              { return C.toGMenu(p.GWidget) }
-func MENU_BAR(p *MenuBar) *C.GtkMenuBar                    { return C.toGMenuBar(p.GWidget) }
-func MENU_SHELL(p *Menu) *C.GtkMenuShell                   { return C.toGMenuShell(p.GWidget) } // TODO (GtkMenuShell receiver)
-func MENU_BAR_SHELL(p *MenuBar) *C.GtkMenuShell            { return C.toGMenuShell(p.GWidget) } // TODO
-func MENU_ITEM(p *MenuItem) *C.GtkMenuItem                 { return C.toGMenuItem(p.GWidget) }
-func ITEM(p *Item) *C.GtkItem                              { return C.toGItem(p.GWidget) }
-func TOOLBAR(p *Toolbar) *C.GtkToolbar                     { return C.toGToolbar(p.GWidget) }
-func TOOL_ITEM(p *ToolItem) *C.GtkToolItem                 { return C.toGToolItem(p.GWidget) }
+func MISC(m *Misc) *C.GtkMisc                       { return C.toGMisc(m.GWidget) }
+func LABEL(p *Label) *C.GtkLabel                    { return C.toGLabel(p.GWidget) }
+func BUTTON(p *Button) *C.GtkButton                 { return C.toGButton(p.GWidget) }
+func SPIN_BUTTON(p *SpinButton) *C.GtkSpinButton    { return C.toGSpinButton(p.GWidget) }
+func RADIO_BUTTON(p *RadioButton) *C.GtkRadioButton { return C.toGRadioButton(p.GWidget) }
+func FONT_BUTTON(p *FontButton) *C.GtkFontButton    { return C.toGFontButton(p.GWidget) }
+func LINK_BUTTON(p *LinkButton) *C.GtkLinkButton    { return C.toGLinkButton(p.GWidget) }
+func COMBO_BOX(p *ComboBox) *C.GtkComboBox          { return C.toGComboBox(p.GWidget) }
+
+//func COMBO_BOX_ENTRY(p *ComboBoxEntry) *C.GtkComboBoxEntry { return C.toGComboBoxEntry(p.GWidget) }
+func MESSAGE_DIALOG(p *MessageDialog) *C.GtkMessageDialog { return C.toGMessageDialog(p.GWidget) }
+func COMBO_BOX_TEXT(p *ComboBoxText) *C.GtkComboBoxText   { return C.toGComboBoxText(p.GWidget) }
+func ACCESSIBLE(p *Accessible) *C.GtkAccessible           { return C.toGAccessible(unsafe.Pointer(p.Object)) }
+func BIN(p *Bin) *C.GtkBin                                { return C.toGBin(p.GWidget) }
+func STATUSBAR(p *Statusbar) *C.GtkStatusbar              { return C.toGStatusbar(p.GWidget) }
+func INFO_BAR(p *InfoBar) *C.GtkInfoBar                   { return C.toGInfoBar(p.GWidget) }
+func FRAME(p *Frame) *C.GtkFrame                          { return C.toGFrame(p.GWidget) }
+func BOX(p *Box) *C.GtkBox                                { return C.toGBox(p.GWidget) }
+func PANED(p *Paned) *C.GtkPaned                          { return C.toGPaned(p.GWidget) }
+func TOGGLE_BUTTON(p *ToggleButton) *C.GtkToggleButton    { return C.toGToggleButton(p.GWidget) }
+func ACCEL_LABEL(p *AccelLabel) *C.GtkAccelLabel          { return C.toGAccelLabel(p.GWidget) }
+func SCALEBUTTON(p *ScaleButton) *C.GtkScaleButton        { return C.toGScaleButton(p.GWidget) }
+func STYLE(p *Style) *C.GtkStyle                          { return p.GStyle }
+func ENTRY(p *Entry) *C.GtkEntry                          { return C.toGEntry(p.GWidget) }
+func ADJUSTMENT(p *Adjustment) *C.GtkAdjustment           { return p.GAdjustment }
+func TEXT_VIEW(p *TextView) *C.GtkTextView                { return C.toGTextView(p.GWidget) }
+func TEXT_BUFFER(p unsafe.Pointer) *C.GtkTextBuffer       { return C.toGTextBuffer(p) }
+func TEXT_TAG(p unsafe.Pointer) *C.GtkTextTag             { return C.toGTextTag(p) }
+func MENU(p *Menu) *C.GtkMenu                             { return C.toGMenu(p.GWidget) }
+func MENU_BAR(p *MenuBar) *C.GtkMenuBar                   { return C.toGMenuBar(p.GWidget) }
+func MENU_SHELL(p *Menu) *C.GtkMenuShell                  { return C.toGMenuShell(p.GWidget) } // TODO (GtkMenuShell receiver)
+func MENU_BAR_SHELL(p *MenuBar) *C.GtkMenuShell           { return C.toGMenuShell(p.GWidget) } // TODO
+func MENU_ITEM(p *MenuItem) *C.GtkMenuItem                { return C.toGMenuItem(p.GWidget) }
+
+//func ITEM(p *Item) *C.GtkItem                             { return C.toGItem(p.GWidget) }
+func TOOLBAR(p *Toolbar) *C.GtkToolbar     { return C.toGToolbar(p.GWidget) }
+func TOOL_ITEM(p *ToolItem) *C.GtkToolItem { return C.toGToolItem(p.GWidget) }
 func SEPARATOR_TOOL_ITEM(p *SeparatorToolItem) *C.GtkSeparatorToolItem {
 	return C.toGSeparatorToolItem(p.GWidget)
 }
@@ -210,9 +213,9 @@ func argumentPanic(message string) {
 
 //Deprecated since 2.24. Use setlocale() directly.
 //(see http://developer.gnome.org/gtk/stable/gtk-General.html#gtk-set-locale)
-func SetLocale() {
+/*func SetLocale() {
 	C.gtk_set_locale()
-}
+}*/
 
 // gtk_disable_setlocale
 // gtk_get_default_language
@@ -1065,10 +1068,10 @@ func (v *Dialog) AddButton(button_text string, response_id ResponseType) *Button
 // gtk_dialog_get_has_separator //deprecated since 2.22
 
 //Deprecated since 2.22.
-func (v *Dialog) SetHasSeparator(f bool) {
+/*func (v *Dialog) SetHasSeparator(f bool) {
 	deprecated_since(2, 22, 0, "gtk_dialog_set_has_separator()")
 	C.gtk_dialog_set_has_separator(DIALOG(v), gbool(f))
-}
+}*/
 func (v *Dialog) SetDefaultResponse(id ResponseType) {
 	C.gtk_dialog_set_default_response(DIALOG(v), gint(int(id)))
 }
@@ -1096,9 +1099,9 @@ func (v *Dialog) GetWidgetForResponse(id int) *Widget {
 // gtk_dialog_set_alternative_button_order
 // gtk_dialog_set_alternative_button_order_from_array
 
-func (v *Dialog) GetVBox() *VBox {
+/*func (v *Dialog) GetVBox() *VBox {
 	return &VBox{Box{Container{Widget{C._gtk_dialog_get_vbox(v.GWidget)}}}}
-}
+}*/
 
 //-----------------------------------------------------------------------
 // GtkMessageDialog
@@ -2086,9 +2089,10 @@ func (v *ProgressBar) SetFraction(fraction float64) {
 func (v *ProgressBar) SetPulseStep(fraction float64) {
 	C.gtk_progress_bar_set_pulse_step(PROGRESS_BAR(v), gdouble(fraction))
 }
-func (v *ProgressBar) SetOrientation(i ProgressBarOrientation) {
+
+/*func (v *ProgressBar) SetOrientation(i ProgressBarOrientation) {
 	C.gtk_progress_bar_set_orientation(PROGRESS_BAR(v), C.GtkProgressBarOrientation(i))
-}
+}*/
 
 // gtk_progress_bar_set_ellipsize
 
@@ -2103,9 +2107,10 @@ func (v *ProgressBar) GetPulseStep() float64 {
 	r := C.gtk_progress_bar_get_pulse_step(PROGRESS_BAR(v))
 	return float64(r)
 }
-func (v *ProgressBar) GetOrientation() ProgressBarOrientation {
+
+/*func (v *ProgressBar) GetOrientation() ProgressBarOrientation {
 	return ProgressBarOrientation(C.gtk_progress_bar_get_orientation(PROGRESS_BAR(v)))
-}
+}*/
 
 // gtk_progress_bar_get_ellipsize
 
@@ -2138,12 +2143,12 @@ func (v *Statusbar) Remove(context_id uint, message_id uint) {
 
 // gtk_statusbar_remove_all //since 2.22
 
-func (v *Statusbar) SetHasResizeGrip(add_tearoffs bool) {
+/*func (v *Statusbar) SetHasResizeGrip(add_tearoffs bool) {
 	C.gtk_statusbar_set_has_resize_grip(STATUSBAR(v), gbool(add_tearoffs))
 }
 func (v *Statusbar) GetHasResizeGrip() bool {
 	return gobool(C.gtk_statusbar_get_has_resize_grip(STATUSBAR(v)))
-}
+}*/
 
 // gtk_statusbar_get_message_area //since 2.20
 
@@ -3182,9 +3187,10 @@ func (v *SpinButton) SetIncrements(step, page float64) {
 func (v *SpinButton) SetRange(min, max float64) {
 	C.gtk_spin_button_set_range(SPIN_BUTTON(v), gdouble(min), gdouble(max))
 }
-func (v *SpinButton) GetValueAsFloat() float64 {
+
+/*func (v *SpinButton) GetValueAsFloat() float64 {
 	return float64(C.gtk_spin_button_get_value_as_float(SPIN_BUTTON(v)))
-}
+}*/
 func (v *SpinButton) GetValueAsInt() int {
 	return int(C.gtk_spin_button_get_value_as_int(SPIN_BUTTON(v)))
 }
@@ -5299,7 +5305,7 @@ func (v *ComboBox) SetModel(model *TreeModel) {
 }
 
 //Deprecated since 2.24. Use GtkComboBoxText.
-func NewComboBoxNewText() *ComboBox {
+/*func NewComboBoxNewText() *ComboBox {
 	deprecated_since(2, 24, 0, "gtk_combo_box_new_text()")
 	return &ComboBox{Bin{Container{Widget{C.gtk_combo_box_new_text()}}}}
 }
@@ -5339,7 +5345,8 @@ func (v *ComboBox) RemoveText(position int) {
 func (v *ComboBox) GetActiveText() string {
 	deprecated_since(2, 24, 0, "gtk_combo_box_get_active_text()")
 	return gostring(C.gtk_combo_box_get_active_text(COMBO_BOX(v)))
-}
+}*/
+
 func (v *ComboBox) Popup() {
 	C.gtk_combo_box_popup(COMBO_BOX(v))
 }
@@ -5416,7 +5423,7 @@ func (v *ComboBoxText) GetActiveText() string {
 //-----------------------------------------------------------------------
 // GtkComboBoxEntry
 //-----------------------------------------------------------------------
-type ComboBoxEntry struct {
+/*type ComboBoxEntry struct {
 	ComboBox
 }
 
@@ -5439,7 +5446,7 @@ func (v *ComboBoxEntry) SetTextColumn(text_column int) {
 	deprecated_since(2, 24, 0, "gtk_combo_box_entry_set_text_column()")
 	C.gtk_combo_box_entry_set_text_column(COMBO_BOX_ENTRY(v), gint(text_column))
 }
-
+*/
 //-----------------------------------------------------------------------
 // GtkMenu
 //-----------------------------------------------------------------------
@@ -5606,12 +5613,12 @@ func (v *MenuBar) Insert(child IWidget, position int) {
 // GtkMenuItem
 //-----------------------------------------------------------------------
 type MenuItem struct {
-	Item
+	Bin
 	Activatable // implement GtkActivatable interface
 }
 
 func newMenuItemInternal(widget *C.GtkWidget) *MenuItem {
-	return &MenuItem{Item{Bin{Container{Widget{widget}}}}, Activatable{widget}}
+	return &MenuItem{Bin{Container{Widget{widget}}}, Activatable{widget}}
 }
 
 func NewMenuItem() *MenuItem {
@@ -5659,10 +5666,10 @@ func (v *MenuItem) GetSubmenu() *Widget {
 }
 
 //Deprecated since 2.12. Use SetSubmenu() instead.
-func (v *MenuItem) RemoveSubmenu() {
+/*func (v *MenuItem) RemoveSubmenu() {
 	deprecated_since(2, 12, 0, "gtk_menu_item_remove_submenu()")
 	C.gtk_menu_item_remove_submenu(MENU_ITEM(v))
-}
+}*/
 
 // void gtk_menu_item_set_accel_path(GtkMenuItem *menu_item, const gchar *accel_path);
 // G_CONST_RETURN gchar* gtk_menu_item_get_accel_path(GtkMenuItem *menu_item);
@@ -5930,30 +5937,37 @@ func (v *Toolbar) SetDropHighlightItem(item IWidget, index int) {
 func (v *Toolbar) SetShowArrow(show_arrow bool) {
 	C.gtk_toolbar_set_show_arrow(TOOLBAR(v), gbool(show_arrow))
 }
-func (v *Toolbar) SetOrientation(orientation Orientation) {
+
+/*func (v *Toolbar) SetOrientation(orientation Orientation) {
 	C.gtk_toolbar_set_orientation(TOOLBAR(v), C.GtkOrientation(orientation))
-}
-func (v *Toolbar) SetTooltips(enable bool) {
+}*/
+
+/*func (v *Toolbar) SetTooltips(enable bool) {
 	C.gtk_toolbar_set_tooltips(TOOLBAR(v), gbool(enable))
-}
+}*/
+
 func (v *Toolbar) UnsetIconSize() {
 	C.gtk_toolbar_unset_icon_size(TOOLBAR(v))
 }
 func (v *Toolbar) GetShowArrow() bool {
 	return gobool(C.gtk_toolbar_get_show_arrow(TOOLBAR(v)))
 }
-func (v *Toolbar) GetOrientation() Orientation {
+
+/*func (v *Toolbar) GetOrientation() Orientation {
 	return Orientation(C.gtk_toolbar_get_orientation(TOOLBAR(v)))
-}
+}*/
+
 func (v *Toolbar) GetStyle() ToolbarStyle {
 	return ToolbarStyle(C.gtk_toolbar_get_style(TOOLBAR(v)))
 }
 func (v *Toolbar) GetIconSize() IconSize {
 	return IconSize(C.gtk_toolbar_get_icon_size(TOOLBAR(v)))
 }
-func (v *Toolbar) GetTooltips() bool {
+
+/*func (v *Toolbar) GetTooltips() bool {
 	return gobool(C.gtk_toolbar_get_tooltips(TOOLBAR(v)))
-}
+}*/
+
 func (v *Toolbar) GetReliefStyle() ReliefStyle {
 	return ReliefStyle(C.gtk_toolbar_get_relief_style(TOOLBAR(v)))
 }
@@ -6633,7 +6647,7 @@ func (v *Action) CreateMenu() *Widget {
 	return &Widget{C.gtk_action_create_menu(ACTION(v))}
 }
 
-func (v *Action) ConnectProxy(proxy *Widget) {
+/*func (v *Action) ConnectProxy(proxy *Widget) {
 	deprecated_since(2, 16, 0, "gtk_action_connect_proxy()")
 	C.gtk_action_connect_proxy(ACTION(v), WIDGET(proxy))
 }
@@ -6641,7 +6655,7 @@ func (v *Action) ConnectProxy(proxy *Widget) {
 func (v *Action) DisconnectProxy(proxy *Widget) {
 	deprecated_since(2, 16, 0, "gtk_action_disconnect_proxy()")
 	C.gtk_action_disconnect_proxy(ACTION(v), WIDGET(proxy))
-}
+}*/
 
 func (v *Action) GetProxies() *glib.SList {
 	deprecated_since(3, 10, 0, "gtk_action_get_proxies()")
@@ -6669,15 +6683,15 @@ func (v *Action) UnblockActivate() {
 	C.gtk_action_unblock_activate(ACTION(v))
 }
 
-func (v *Action) BlockActivateFrom(proxy *Widget) {
+/*func (v *Action) BlockActivateFrom(proxy *Widget) {
 	deprecated_since(2, 16, 0, "gtk_action_block_activate_from()")
 	C.gtk_action_block_activate_from(ACTION(v), WIDGET(proxy))
-}
-
+}*/
+/*
 func (v *Action) UnblockActivateFrom(proxy *Widget) {
 	deprecated_since(2, 16, 0, "gtk_action_unblock_activate_from()")
 	C.gtk_action_unblock_activate_from(ACTION(v), WIDGET(proxy))
-}
+}*/
 
 func (v *Action) GetAlwaysShowImage() bool {
 	deprecated_since(3, 10, 0, "gtk_action_get_always_show_image()")
@@ -7619,12 +7633,13 @@ func (v *Layout) Put(child IWidget, x int, y int) {
 func (v *Layout) SetSize(width int, height int) {
 	C.gtk_layout_set_size(LAYOUT(v), C.guint(width), C.guint(height))
 }
-func (v *Layout) Freeze() {
+
+/*func (v *Layout) Freeze() {
 	C.gtk_layout_freeze(LAYOUT(v))
 }
 func (v *Layout) Thaw() {
 	C.gtk_layout_thaw(LAYOUT(v))
-}
+}*/
 func (v *Layout) GetSize(width *int, height *int) {
 	var cwidth, cheight C.guint
 	C.gtk_layout_get_size(LAYOUT(v), &cwidth, &cheight)
@@ -7694,10 +7709,10 @@ func (v *Notebook) SetScrollable(scrollable bool) {
 }
 
 //Deprecated.
-func (v *Notebook) SetTabBorder(border_width uint) {
+/*func (v *Notebook) SetTabBorder(border_width uint) {
 	deprecated_since(2, 0, 0, "gtk_notebook_set_tab_border()")
 	C.gtk_notebook_set_tab_border(NOTEBOOK(v), guint(border_width))
-}
+}*/
 func (v *Notebook) PopupEnable() {
 	C.gtk_notebook_popup_enable(NOTEBOOK(v))
 }
@@ -7724,7 +7739,7 @@ func (v *Notebook) GetTabLabel(child IWidget) *Widget {
 }
 
 //Deprecated since 2.20. Modify the "tab-expand" and "tab-fill" child properties instead.
-func (v *Notebook) QueryTabLabelPacking(child IWidget, expand *bool, fill *bool, pack_type *uint) {
+/*func (v *Notebook) QueryTabLabelPacking(child IWidget, expand *bool, fill *bool, pack_type *uint) {
 	deprecated_since(2, 20, 0, "gtk_notebook_query_tab_label_packing()")
 	var cexpand, cfill C.gboolean
 	var cpack_type C.GtkPackType
@@ -7732,13 +7747,14 @@ func (v *Notebook) QueryTabLabelPacking(child IWidget, expand *bool, fill *bool,
 	*expand = gobool(cexpand)
 	*fill = gobool(cfill)
 	*pack_type = uint(cpack_type)
-}
+}*/
 
 //Deprecated.
-func (v *Notebook) SetHomogeneousTabs(homogeneous bool) {
+/*func (v *Notebook) SetHomogeneousTabs(homogeneous bool) {
 	deprecated_since(2, 0, 0, "gtk_notebook_set_homogeneous_tabs()")
 	C.gtk_notebook_set_homogeneous_tabs(NOTEBOOK(v), gbool(homogeneous))
-}
+}*/
+
 func (v *Notebook) SetMenuLabel(child IWidget, menu_label IWidget) {
 	C.gtk_notebook_set_menu_label(NOTEBOOK(v), ToNative(child), ToNative(menu_label))
 }
@@ -7749,19 +7765,21 @@ func (v *Notebook) SetMenuLabelText(child IWidget, name string) {
 }
 
 //Deprecated.
-func (v *Notebook) SetTabHBorder(tab_hborder uint) {
+/*func (v *Notebook) SetTabHBorder(tab_hborder uint) {
 	deprecated_since(2, 0, 0, "gtk_notebook_set_tab_hborder()")
 	C.gtk_notebook_set_tab_hborder(NOTEBOOK(v), guint(tab_hborder))
-}
+}*/
+
 func (v *Notebook) SetTabLabel(child IWidget, tab_label IWidget) {
 	C.gtk_notebook_set_tab_label(NOTEBOOK(v), ToNative(child), ToNative(tab_label))
 }
 
 //Deprecated since 2.20. Modify the "tab-expand" and "tab-fill" child properties instead.
-func (v *Notebook) SetTabLabelPacking(child IWidget, expand bool, fill bool, pack_type uint) {
+/*func (v *Notebook) SetTabLabelPacking(child IWidget, expand bool, fill bool, pack_type uint) {
 	deprecated_since(2, 20, 0, "gtk_notebook_set_tab_label_packing()")
 	C.gtk_notebook_set_tab_label_packing(NOTEBOOK(v), ToNative(child), gbool(expand), gbool(fill), C.GtkPackType(pack_type))
-}
+}*/
+
 func (v *Notebook) SetTabLabelText(child IWidget, name string) {
 	ptr := C.CString(name)
 	defer cfree(ptr)
@@ -7769,10 +7787,11 @@ func (v *Notebook) SetTabLabelText(child IWidget, name string) {
 }
 
 //Deprecated.
-func (v *Notebook) SetTabVBorder(tab_vborder uint) {
+/*func (v *Notebook) SetTabVBorder(tab_vborder uint) {
 	deprecated_since(2, 0, 0, "gtk_notebook_set_tab_vborder()")
 	C.gtk_notebook_set_tab_vborder(NOTEBOOK(v), guint(tab_vborder))
-}
+}*/
+
 func (v *Notebook) SetReorderable(child IWidget, reorderable bool) {
 	C.gtk_notebook_set_tab_reorderable(NOTEBOOK(v), ToNative(child), gbool(reorderable))
 }
@@ -7812,28 +7831,29 @@ func (v *Notebook) SetCurrentPage(pageNum int) {
 }
 
 //Deprecated since 2.12, use SetGroupName() instead
-func (v *Notebook) SetGroupId(group_id int) {
+/*func (v *Notebook) SetGroupId(group_id int) {
 	deprecated_since(2, 12, 0, "gtk_notebook_set_group_id()")
 	C.gtk_notebook_set_group_id(NOTEBOOK(v), gint(group_id))
-}
+}*/
 
 //Deprecated since 2.12, use GetGroupName() instead
-func (v *Notebook) GetGroupId() int {
+/*func (v *Notebook) GetGroupId() int {
 	deprecated_since(2, 12, 0, "gtk_notebook_get_group_id()")
 	return int(C.gtk_notebook_get_group_id(NOTEBOOK(v)))
-}
+}*/
 
 //Deprecated since 2.24, use SetGroupName() instead
-func (v *Notebook) SetGroup(group unsafe.Pointer) {
+/*func (v *Notebook) SetGroup(group unsafe.Pointer) {
 	deprecated_since(2, 24, 0, "gtk_notebook_set_group()")
 	C.gtk_notebook_set_group(NOTEBOOK(v), C.gpointer(group))
-}
+}*/
 
 //Deprecated since 2.24, use GetGroupName() instead
-func (v *Notebook) GetGroup() unsafe.Pointer {
+/*func (v *Notebook) GetGroup() unsafe.Pointer {
 	deprecated_since(2, 24, 0, "gtk_notebook_get_group()")
 	return unsafe.Pointer(C.gtk_notebook_get_group(NOTEBOOK(v)))
-}
+}*/
+
 func (v *Notebook) SetGroupName(group string) {
 	panic_if_version_older(2, 24, 0, "gtk_notebook_set_group_name()")
 	ptr := C.CString(group)
@@ -8510,8 +8530,8 @@ type Adjustment struct {
 
 func NewAdjustment(value, lower, upper, step_increment, page_increment, page_size float64) *Adjustment {
 	return &Adjustment{
-		C.toGAdjustment(C.gtk_adjustment_new(gdouble(value), gdouble(lower), gdouble(upper),
-			gdouble(step_increment), gdouble(page_increment), gdouble(page_size)))}
+		C.gtk_adjustment_new(gdouble(value), gdouble(lower), gdouble(upper),
+			gdouble(step_increment), gdouble(page_increment), gdouble(page_size))}
 }
 func (v *Adjustment) GetValue() float64 {
 	return float64(C.gtk_adjustment_get_value(v.GAdjustment))
@@ -8614,10 +8634,10 @@ func NewDrawingArea() *DrawingArea {
 }
 
 //Deprecated. Use GtkWidget.SetSizeRequest() instead.
-func (v *DrawingArea) GetSizeRequest(width, height int) {
+/*func (v *DrawingArea) GetSizeRequest(width, height int) {
 	deprecated_since(2, 0, 0, "gtk_drawing_area_size()")
 	C.gtk_drawing_area_size(DRAWING_AREA(v), gint(width), gint(height))
-}
+}*/
 
 //-----------------------------------------------------------------------
 // GtkEventBox
@@ -8849,7 +8869,7 @@ func (v *Box) PackEnd(child IWidget, expand bool, fill bool, padding uint) {
 }
 
 //Deprecated since 2.14. Use PackStart() instead.
-func (v *Box) PackStartDefaults(child IWidget) {
+/*func (v *Box) PackStartDefaults(child IWidget) {
 	deprecated_since(2, 14, 0, "gtk_box_pack_start_defaults()")
 	C.gtk_box_pack_start_defaults(BOX(v), ToNative(child))
 }
@@ -8858,7 +8878,8 @@ func (v *Box) PackStartDefaults(child IWidget) {
 func (v *Box) PackEndDefaults(child IWidget) {
 	deprecated_since(2, 14, 0, "gtk_box_pack_end_defaults()")
 	C.gtk_box_pack_end_defaults(BOX(v), ToNative(child))
-}
+}*/
+
 func (v *Box) GetHomogeneous() bool {
 	return gobool(C.gtk_box_get_homogeneous(BOX(v)))
 }
@@ -8981,7 +9002,7 @@ func (v *Container) SetBorderWidth(border_width uint) {
 //-----------------------------------------------------------------------
 // GtkItem
 //-----------------------------------------------------------------------
-type Item struct {
+/*type Item struct {
 	Bin
 }
 
@@ -9002,7 +9023,7 @@ func (v *Item) Toggle() {
 	deprecated_since(2, 22, 0, "gtk_item_select()")
 	C.gtk_item_toggle(ITEM(v))
 }
-
+*/
 //-----------------------------------------------------------------------
 // GtkMenuShell
 //-----------------------------------------------------------------------
@@ -9267,7 +9288,7 @@ const (
 type IWidget interface {
 	ToNative() *C.GtkWidget
 	Hide()
-	HideAll()
+	//HideAll()
 	Show()
 	ShowAll()
 	ShowNow()
@@ -9332,16 +9353,17 @@ func (v *Widget) HandlerDisconnect(id int) {
 // gtk_widget_new
 
 //Deprecated since 2.12. Use g_object_ref() instead. //TODO gobject
-func (v *Widget) Ref() {
+/*func (v *Widget) Ref() {
 	deprecated_since(2, 12, 0, "gtk_widget_ref()")
 	C.gtk_widget_ref(v.GWidget)
-}
+}*/
 
 //Deprecated since 2.12. Use g_object_ref() instead. //TODO gobject
-func (v *Widget) Unref() {
+/*func (v *Widget) Unref() {
 	deprecated_since(2, 12, 0, "gtk_widget_unref()")
 	C.gtk_widget_unref(v.GWidget)
-}
+}*/
+
 func (v *Widget) Destroy() {
 	C.gtk_widget_destroy(v.GWidget)
 }
@@ -9365,10 +9387,10 @@ func (v *Widget) ShowAll() {
 }
 
 //Deprecated since 2.24. Use Hide() instead.
-func (v *Widget) HideAll() {
+/*func (v *Widget) HideAll() {
 	deprecated_since(2, 24, 0, "gtk_widget_hide_all()")
 	C.gtk_widget_hide_all(v.GWidget)
-}
+}*/
 func (v *Widget) Map() {
 	C.gtk_widget_map(v.GWidget)
 }
@@ -9455,10 +9477,11 @@ func (v *Widget) GetParentWindow() *gdk.Window {
 }
 
 //Deprecated since 2.2, use SetSizeRequest() instead
-func (v *Widget) SetUSize(width int, height int) {
+/*func (v *Widget) SetUSize(width int, height int) {
 	deprecated_since(2, 2, 0, "gtk_widget_set_usize()")
 	C.gtk_widget_set_usize(v.GWidget, gint(width), gint(height))
-}
+}*/
+
 func (v *Widget) SetEvents(events int) {
 	C.gtk_widget_set_events(v.GWidget, gint(events))
 }
@@ -9475,9 +9498,9 @@ func (v *Widget) GetTopLevel() *Widget {
 
 // gtk_widget_get_ancestor
 
-func (v *Widget) GetColormap() *gdk.Colormap {
+/*func (v *Widget) GetColormap() *gdk.Colormap {
 	return gdk.ColormapFromUnsafe(unsafe.Pointer(C.gtk_widget_get_colormap(v.GWidget)))
-}
+}*/
 
 // gtk_widget_get_colormap
 // gtk_widget_set_colormap
@@ -9539,10 +9562,10 @@ func (v *Widget) RenderIcon(stock_id string, size IconSize, detail string) *gdkp
 // gtk_widget_push_composite_child
 
 //Deprecated since 2.2. Use QueueDraw() instead.
-func (v *Widget) QueueClear() {
+/*func (v *Widget) QueueClear() {
 	deprecated_since(2, 2, 0, "gtk_widget_queue_clear()")
 	C.gtk_widget_queue_clear(v.GWidget)
-}
+}*/
 
 // gtk_widget_queue_draw_area
 
@@ -9672,10 +9695,10 @@ func (v *Widget) GetAllocation() *Allocation {
 func (v *Widget) SetAllocation(allocation *Allocation) {
 	panic_if_version_older(2, 18, 0, "gtk_widget_set_allocation()")
 	var _allocation C.GtkAllocation
-	_allocation.x = gint(allocation.X)
-	_allocation.y = gint(allocation.Y)
-	_allocation.width = gint(allocation.Width)
-	_allocation.height = gint(allocation.Height)
+	_allocation.x = C.int(allocation.X)
+	_allocation.y = C.int(allocation.Y)
+	_allocation.width = C.int(allocation.Width)
+	_allocation.height = C.int(allocation.Height)
 	C._gtk_widget_set_allocation(v.GWidget, &_allocation)
 }
 func (v *Widget) GetAppPaintable() bool {
