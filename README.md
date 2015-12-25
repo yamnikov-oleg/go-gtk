@@ -17,12 +17,14 @@
 
   Don't forget, that you need the GTK-Development-Packages.
 
-  If you use linux, you should install `libgtk+-2.0` and packages that depend on gtk.
+  If you use linux, you should install `libgtk+-3.0` and packages that depend on gtk.
 
   If you use windows, find gtk binary packages from here:
 
   * http://www.gtk.org/download/win32.php
   * http://www.gtk.org/download/win64.php
+
+  Difference from mattn's package: roughly ported to Gtk+3.0
 
 ## LICENSE
 
