@@ -13,7 +13,7 @@
   To experiment with go-gtk, you can just compile and run the example
   program:
 
-    go get github.com/mattn/go-gtk/gtk
+    go get github.com/yamnikov-oleg/go-gtk/gtk
 
   Don't forget, that you need the GTK-Development-Packages.
 
