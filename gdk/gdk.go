@@ -3,14 +3,10 @@
 package gdk
 
 // #include "gdk.go.h"
-// #cgo pkg-config: gdk-2.0 gthread-2.0
+// #cgo pkg-config: gdk-3.0 gthread-2.0
+// #cgo CPPFLAGS: -w
 import "C"
-import (
-	"unsafe"
-
-	"github.com/yamnikov-oleg/go-gtk/gdkpixbuf"
-	"github.com/yamnikov-oleg/go-gtk/pango"
-)
+import "unsafe"
 
 func guint16(v uint16) C.guint16 { return C.guint16(v) }
 func gint(v int) C.gint          { return C.gint(v) }
@@ -201,7 +197,7 @@ func (v Color) Blue() uint16  { return uint16(v.GColor.blue) }
 //-----------------------------------------------------------------------
 // GdkColormap
 // ----------------------------------------------------------------------
-type Colormap struct {
+/*type Colormap struct {
 	GColormap *C.GdkColormap
 }
 
@@ -214,12 +210,12 @@ func (v *Colormap) AllocColorRGB(r, g, b uint16) *Color {
 	C.gdk_colormap_alloc_color(v.GColormap, &req.GColor, gbool(false), gbool(true))
 	// XXX fixme -- should check for failure
 	return req
-}
+}*/
 
 //-----------------------------------------------------------------------
 // GdkFont
 //-----------------------------------------------------------------------
-type Font struct {
+/*type Font struct {
 	GFont *C.GdkFont
 }
 
@@ -260,11 +256,11 @@ func FontsetLoad(name string) *Font {
 // void gdk_text_extents_wc (GdkFont *font, const GdkWChar *text, gint text_length, gint *lbearing, gint *rbearing, gint *width, gint *ascent, gint *descent);
 // void gdk_string_extents (GdkFont *font, const gchar *string, gint *lbearing, gint *rbearing, gint *width, gint *ascent, gint *descent);
 // GdkDisplay * gdk_font_get_display (GdkFont *font);
-
+*/
 //-----------------------------------------------------------------------
 // GdkGC
 //-----------------------------------------------------------------------
-type GC struct {
+/*type GC struct {
 	GGC *C.GdkGC
 }
 
@@ -330,11 +326,11 @@ func ScreenWidth() (width int) {
 func ScreenHeight() (height int) {
 	return int(C.gdk_screen_height())
 }
-
+*/
 //-----------------------------------------------------------------------
 // GdkDrawable
 //-----------------------------------------------------------------------
-type Drawable struct {
+/*type Drawable struct {
 	GDrawable *C.GdkDrawable
 }
 
@@ -370,7 +366,7 @@ func (v *Drawable) DrawDrawable(gc *GC, src *Drawable, xsrc int, ysrc int, xdest
 // void gdk_draw_segments (GdkDrawable *drawable, GdkGC *gc, const GdkSegment *segs, gint n_segs);
 // void gdk_draw_lines (GdkDrawable *drawable, GdkGC *gc, const GdkPoint *points, gint n_points);
 
-type GdkRgbDither int
+/*type GdkRgbDither int
 
 const (
 	//Never use dithering.
@@ -412,7 +408,7 @@ func (v *Drawable) DrawLayout(gc *GC, x, y int, layout *pango.Layout) {
 // GdkImage *gdk_drawable_copy_to_image (GdkDrawable *drawable, GdkImage *image, gint src_x, gint src_y, gint dest_x, gint dest_y, gint width, gint height);
 // GdkRegion *gdk_drawable_get_clip_region (GdkDrawable *drawable);
 // GdkRegion *gdk_drawable_get_visible_region (GdkDrawable *drawable);
-
+*/
 //-----------------------------------------------------------------------
 // GdkWindow
 //-----------------------------------------------------------------------
@@ -589,18 +585,18 @@ func (v *Window) GetPointer(x *int, y *int, mask *ModifierType) *Window {
 	return ret
 }
 
-func (v *Window) GetDrawable() *Drawable {
+/*func (v *Window) GetDrawable() *Drawable {
 	return &Drawable{
 		(*C.GdkDrawable)(v.GWindow)}
-}
+}*/
 
 func (v *Window) Invalidate(rect *Rectangle, invalidate_children bool) {
 	if rect != nil {
 		var _rect C.GdkRectangle
-		_rect.x = gint(rect.X)
-		_rect.y = gint(rect.Y)
-		_rect.width = gint(rect.Width)
-		_rect.height = gint(rect.Height)
+		_rect.x = C.int(rect.X)
+		_rect.y = C.int(rect.Y)
+		_rect.width = C.int(rect.Width)
+		_rect.height = C.int(rect.Height)
 		C.gdk_window_invalidate_rect(v.GWindow, &_rect, gbool(invalidate_children))
 	} else {
 		C.gdk_window_invalidate_rect(v.GWindow, nil, gbool(invalidate_children))
@@ -618,7 +614,7 @@ func (v *Window) Raise() {
 //-----------------------------------------------------------------------
 // GdkPixmap
 //-----------------------------------------------------------------------
-type Pixmap struct {
+/*type Pixmap struct {
 	GPixmap *C.GdkPixmap
 }
 
@@ -643,9 +639,10 @@ func (v *Pixmap) Ref() {
 func (v *Pixmap) Unref() {
 	C.g_object_unref(C.gpointer(v.GPixmap))
 }
+
 func (v *Pixmap) GetDrawable() *Drawable {
 	return &Drawable{(*C.GdkDrawable)(v.GPixmap)}
-}
+}*/
 
 // Subset of gdkkeysyms.h
 const (
