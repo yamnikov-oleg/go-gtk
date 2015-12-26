@@ -10080,3 +10080,44 @@ func (v *Builder) GetTypeFromName(type_name string) int {
 
 // gboolean gtk_builder_value_from_string (GtkBuilder *builder, GParamSpec *pspec, const gchar *string, GValue *value, GError **error);
 // gboolean gtk_builder_value_from_string_type (GtkBuilder *builder, GType type, const gchar *string, GValue *value, GError **error);
+
+//-----------------------------------------------------------------------
+// GtkCssProvider
+//-----------------------------------------------------------------------
+type CssProvider struct {
+	GtkCssProvider *C.GtkCssProvider
+}
+
+func NewCssProvider() *CssProvider {
+	return &CssProvider{C.gtk_css_provider_new()}
+}
+
+func StyleContextAddProviderForScreen(screen *gdk.Screen, provider *CssProvider, priority StyleProviderPriority) {
+	C.gtk_style_context_add_provider_for_screen(
+		(*C.GdkScreen)(screen.GdkScreen),
+		(*C.GtkStyleProvider)(unsafe.Pointer(provider.GtkCssProvider)),
+		C.guint(priority),
+	)
+}
+
+func (p *CssProvider) LoadFromData(text string) *glib.Error {
+	var err *C.GError
+	ptr := C.CString(text)
+	defer C.free(unsafe.Pointer(ptr))
+
+	C.gtk_css_provider_load_from_data(p.GtkCssProvider, (*C.gchar)(ptr), -1, &err)
+	if err != nil {
+		return glib.ErrorFromNative(unsafe.Pointer(err))
+	}
+	return nil
+}
+
+type StyleProviderPriority uint
+
+const (
+	STYLE_PROVIDER_PRIORITY_FALLBACK    StyleProviderPriority = C.GTK_STYLE_PROVIDER_PRIORITY_FALLBACK
+	STYLE_PROVIDER_PRIORITY_THEME                             = C.GTK_STYLE_PROVIDER_PRIORITY_THEME
+	STYLE_PROVIDER_PRIORITY_SETTINGS                          = C.GTK_STYLE_PROVIDER_PRIORITY_SETTINGS
+	STYLE_PROVIDER_PRIORITY_APPLICATION                       = C.GTK_STYLE_PROVIDER_PRIORITY_APPLICATION
+	STYLE_PROVIDER_PRIORITY_USER                              = C.GTK_STYLE_PROVIDER_PRIORITY_USER
+)

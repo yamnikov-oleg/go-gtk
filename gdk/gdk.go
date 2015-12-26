@@ -2981,6 +2981,10 @@ func (d *Display) GetDeviceManager() *DeviceManager {
 	return &DeviceManager{C.gdk_display_get_device_manager(d.GdkDisplay)}
 }
 
+func (d *Display) GetDefaultScreen() *Screen {
+	return &Screen{C.gdk_display_get_default_screen(d.GdkDisplay)}
+}
+
 //-----------------------------------------------------------------------
 // GdkDeviceManager
 //-----------------------------------------------------------------------
@@ -3049,3 +3053,10 @@ const (
 const (
 	CURRENT_TIME uint32 = C.GDK_CURRENT_TIME
 )
+
+//-----------------------------------------------------------------------
+// GdkScreen
+//-----------------------------------------------------------------------
+type Screen struct {
+	GdkScreen *C.GdkScreen
+}
