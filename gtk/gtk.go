@@ -1818,7 +1818,13 @@ func NewImageFromStock(stock_id string, size IconSize) *Image {
 }
 
 // gtk_image_new_from_animation
-// gtk_image_new_from_icon_name
+
+func NewImageFromIconName(icon_id string, size IconSize) *Image {
+	ptr := C.CString(icon_id)
+	defer cfree(ptr)
+	return &Image{Misc{Widget{C.gtk_image_new_from_icon_name(gstring(ptr), C.GtkIconSize(size))}}}
+}
+
 // gtk_image_new_from_gicon
 
 func (v *Image) GetPixbuf() *gdkpixbuf.Pixbuf {
