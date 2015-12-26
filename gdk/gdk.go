@@ -2970,9 +2970,78 @@ type Atom uintptr
 // GdkDisplay
 //-----------------------------------------------------------------------
 type Display struct {
-	GDisplay unsafe.Pointer
+	GdkDisplay *C.GdkDisplay
 }
 
-func DisplayGetDefault() *Display {
-	return &Display{C._gdk_display_get_default()}
+func GetDefaultDisplay() *Display {
+	return &Display{C.gdk_display_get_default()}
 }
+
+func (d *Display) GetDeviceManager() *DeviceManager {
+	return &DeviceManager{C.gdk_display_get_device_manager(d.GdkDisplay)}
+}
+
+//-----------------------------------------------------------------------
+// GdkDeviceManager
+//-----------------------------------------------------------------------
+type DeviceManager struct {
+	GdkDeviceManager *C.GdkDeviceManager
+}
+
+func (dm *DeviceManager) GetClientPointer() *Device {
+	return &Device{C.gdk_device_manager_get_client_pointer(dm.GdkDeviceManager)}
+}
+
+//-----------------------------------------------------------------------
+// GdkDevice
+//-----------------------------------------------------------------------
+type Device struct {
+	GdkDevice *C.GdkDevice
+}
+
+func (d *Device) Grab(window *Window, ownership GrabOwnership, owner_events bool, event_mask EventMask, cursor *Cursor, time uint32) GrabStatus {
+	var gcsr *C.GdkCursor
+	if cursor == nil {
+		gcsr = nil
+	} else {
+		gcsr = cursor.GCursor
+	}
+	ret := C.gdk_device_grab(
+		d.GdkDevice,
+		window.GWindow,
+		C.GdkGrabOwnership(ownership),
+		gbool(owner_events),
+		C.GdkEventMask(event_mask),
+		gcsr,
+		C.guint32(time),
+	)
+	return GrabStatus(ret)
+}
+
+//-----------------------------------------------------------------------
+// GdkDevice
+//-----------------------------------------------------------------------
+type GrabOwnership int
+
+const (
+	OWNERSHIP_NONE        GrabOwnership = C.GDK_OWNERSHIP_NONE
+	OWNERSHIP_WINDOW                    = C.GDK_OWNERSHIP_WINDOW
+	OWNERSHIP_APPLICATION               = C.GDK_OWNERSHIP_APPLICATION
+)
+
+//-----------------------------------------------------------------------
+// GdkGrabStatus
+//-----------------------------------------------------------------------
+type GrabStatus int
+
+const (
+	GRAB_SUCCESS         GrabStatus = C.GDK_GRAB_SUCCESS
+	GRAB_ALREADY_GRABBED            = C.GDK_GRAB_ALREADY_GRABBED
+	GRAB_INVALID_TIME               = C.GDK_GRAB_INVALID_TIME
+	GRAB_NOT_VIEWABLE               = C.GDK_GRAB_NOT_VIEWABLE
+	GRAB_FROZEN                     = C.GDK_GRAB_FROZEN
+)
+
+const (
+	CURRENT_TIME uint32 = C.GDK_CURRENT_TIME
+)

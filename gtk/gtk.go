@@ -339,11 +339,11 @@ type Clipboard struct {
 }
 
 func NewClipboardGetForDisplay(display *gdk.Display, selection gdk.Atom) *Clipboard {
-	var cdisplay unsafe.Pointer
+	var cdisplay *C.GdkDisplay
 	if display != nil {
-		cdisplay = display.GDisplay
+		cdisplay = (*C.GdkDisplay)(display.GdkDisplay)
 	}
-	return &Clipboard{C._gtk_clipboard_get_for_display(cdisplay, unsafe.Pointer(uintptr(selection)))}
+	return &Clipboard{C.gtk_clipboard_get_for_display(cdisplay, C.GdkAtom(unsafe.Pointer(uintptr(selection))))}
 }
 
 func (v *Clipboard) Clear() {

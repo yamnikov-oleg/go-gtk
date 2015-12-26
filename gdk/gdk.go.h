@@ -15,8 +15,4 @@ static void freeCstr(char* s) { free(s); }
 static GdkWindow* toGdkWindow(void* w) { return GDK_WINDOW(w); }
 static GdkDragContext* toGdkDragContext(void* l) { return (GdkDragContext*)l; }
 
-static void* _gdk_display_get_default() {
-	return (void*) gdk_display_get_default();
-}
-
 #endif
