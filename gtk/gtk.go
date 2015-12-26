@@ -4163,6 +4163,9 @@ func (v *TreeModel) GetValue(iter *TreeIter, col int, val *glib.GValue) {
 func (v *TreeModel) IterNext(iter *TreeIter) bool {
 	return gobool(C.gtk_tree_model_iter_next(v.GTreeModel, &iter.GTreeIter))
 }
+func (v *TreeModel) IterPrev(iter *TreeIter) bool {
+	return gobool(C.gtk_tree_model_iter_previous(v.GTreeModel, &iter.GTreeIter))
+}
 func (v *TreeModel) IterChildren(iter *TreeIter, parent *TreeIter) bool {
 	return gobool(C.gtk_tree_model_iter_children(v.GTreeModel, &iter.GTreeIter, &parent.GTreeIter))
 }
