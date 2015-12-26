@@ -3018,6 +3018,10 @@ func (d *Device) Grab(window *Window, ownership GrabOwnership, owner_events bool
 	return GrabStatus(ret)
 }
 
+func (d *Device) Ungrab(time uint32) {
+	C.gdk_device_ungrab(d.GdkDevice, C.guint32(time))
+}
+
 //-----------------------------------------------------------------------
 // GdkDevice
 //-----------------------------------------------------------------------
