@@ -2812,6 +2812,10 @@ func NewEntry() *Entry {
 	w := Widget{C.gtk_entry_new()}
 	return &Entry{w, Editable{C.toGEditable(w.GWidget)}}
 }
+func NewSearchEntry() *Entry {
+	w := Widget{C.gtk_search_entry_new()}
+	return &Entry{w, Editable{C.toGEditable(w.GWidget)}}
+}
 func NewEntryWithBuffer(buffer *EntryBuffer) *Entry {
 	panic_if_version_older_auto(2, 18, 0)
 	w := Widget{C._gtk_entry_new_with_buffer(buffer.GEntryBuffer)}
