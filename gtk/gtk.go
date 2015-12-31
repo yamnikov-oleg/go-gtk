@@ -4177,10 +4177,22 @@ func (v *TreeModel) IterHasChild(iter *TreeIter) bool {
 	return gobool(C.gtk_tree_model_iter_has_child(v.GTreeModel, &iter.GTreeIter))
 }
 func (v *TreeModel) IterNChildren(iter *TreeIter) int {
-	return int(C.gtk_tree_model_iter_n_children(v.GTreeModel, &iter.GTreeIter))
+	var gTreeIter *C.GtkTreeIter
+	if iter != nil {
+		gTreeIter = &iter.GTreeIter
+	} else {
+		gTreeIter = nil
+	}
+	return int(C.gtk_tree_model_iter_n_children(v.GTreeModel, gTreeIter))
 }
 func (v *TreeModel) IterNthChild(iter *TreeIter, parent *TreeIter, n int) bool {
-	return gobool(C.gtk_tree_model_iter_nth_child(v.GTreeModel, &iter.GTreeIter, &parent.GTreeIter, gint(n)))
+	var parentGTreeIter *C.GtkTreeIter
+	if parent != nil {
+		parentGTreeIter = &parent.GTreeIter
+	} else {
+		parentGTreeIter = nil
+	}
+	return gobool(C.gtk_tree_model_iter_nth_child(v.GTreeModel, &iter.GTreeIter, parentGTreeIter, gint(n)))
 }
 func (v *TreeModel) IterParent(iter *TreeIter, child *TreeIter) bool {
 	return gobool(C.gtk_tree_model_iter_parent(v.GTreeModel, &iter.GTreeIter, &child.GTreeIter))
