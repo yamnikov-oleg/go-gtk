@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"reflect"
-	"github.com/mattn/go-gtk/glib"
-	"github.com/mattn/go-gtk/gtk"
+	"github.com/yamnikov-oleg/go-gtk/glib"
+	"github.com/yamnikov-oleg/go-gtk/gtk"
     "unsafe"
 )
 

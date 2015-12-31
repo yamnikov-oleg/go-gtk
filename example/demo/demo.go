@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/mattn/go-gtk/gdkpixbuf"
-	"github.com/mattn/go-gtk/glib"
-	"github.com/mattn/go-gtk/gtk"
+	"github.com/yamnikov-oleg/go-gtk/gdkpixbuf"
+	"github.com/yamnikov-oleg/go-gtk/glib"
+	"github.com/yamnikov-oleg/go-gtk/gtk"
 	"os"
 	"os/exec"
 	"path/filepath"

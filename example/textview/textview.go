@@ -2,10 +2,11 @@ package main
 
 import (
 	"fmt"
-	"github.com/mattn/go-gtk/gdk"
-	"github.com/mattn/go-gtk/glib"
-	"github.com/mattn/go-gtk/gtk"
 	"unsafe"
+
+	"github.com/yamnikov-oleg/go-gtk/gdk"
+	"github.com/yamnikov-oleg/go-gtk/glib"
+	"github.com/yamnikov-oleg/go-gtk/gtk"
 )
 
 func main() {
