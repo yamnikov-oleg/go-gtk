@@ -3,7 +3,8 @@
 package gtkgl
 
 // #include "gtkgl.go.h"
-// #cgo pkg-config: gtkgl-2.0
+// #cgo CPPFLAGS: -w -static
+// #cgo pkg-config: gtkgl-3.0
 import "C"
 
 import "github.com/yamnikov-oleg/go-gtk/gtk"
@@ -14,14 +15,19 @@ type GLArea struct {
 }
 
 func NewGLArea(attrList []int) *GLArea {
+	ptr := unsafe.Pointer(nil)
+	if len(attrList) > 0 {
+		ptr = unsafe.Pointer(&attrList[0])
+	}
 	return &GLArea{gtk.DrawingArea{
-		*gtk.WidgetFromNative(C.make_area(C.int(len(attrList)), (*C.int)(unsafe.Pointer(&attrList[0]))))}}
+		*gtk.WidgetFromNative(C.make_area(C.int(len(attrList)), (*C.int)(ptr)))},
+	}
 }
 
 func (v *GLArea) MakeCurrent() {
-	C.gtk_gl_area_make_current((*C.GtkGLArea)(unsafe.Pointer(v.GWidget)))
+	C.ggla_area_make_current((*C.GglaArea)(unsafe.Pointer(v.GWidget)))
 }
 
 func (v *GLArea) SwapBuffers() {
-	C.gtk_gl_area_swap_buffers((*C.GtkGLArea)(unsafe.Pointer(v.GWidget)))
+	C.ggla_area_swap_buffers((*C.GglaArea)(unsafe.Pointer(v.GWidget)))
 }
