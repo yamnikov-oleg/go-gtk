@@ -575,11 +575,11 @@ func (v *GObject) Set(name string, value interface{}) {
 		//C._g_object_set(C.gpointer(v.Object), C.to_gcharptr(ptr), unsafe.Pointer(reflect.ValueOf(C.guint(value.(uint))).UnsafeAddr()))
 	case float32:
 		f32val := C.gfloat(value.(float32))
-		C._g_object_set_addr(C.gpointer(v.Object), C.to_gcharptr(ptr), unsafe.Pointer(&f32val))
+		C._g_object_set_float(C.gpointer(v.Object), C.to_gcharptr(ptr), f32val)
 		//C._g_object_set(C.gpointer(v.Object), C.to_gcharptr(ptr), unsafe.Pointer(reflect.ValueOf(C.gfloat(value.(float64))).UnsafeAddr()))
 	case float64:
 		f64val := C.gfloat(value.(float64))
-		C._g_object_set_addr(C.gpointer(v.Object), C.to_gcharptr(ptr), unsafe.Pointer(&f64val))
+		C._g_object_set_float(C.gpointer(v.Object), C.to_gcharptr(ptr), f64val)
 		//C._g_object_set(C.gpointer(v.Object), C.to_gcharptr(ptr), unsafe.Pointer(reflect.ValueOf(C.gfloat(value.(float64))).UnsafeAddr()))
 	case string:
 		pval := C.CString(value.(string))

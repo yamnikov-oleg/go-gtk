@@ -46,6 +46,9 @@ static void _g_object_set_ptr(gpointer object, const gchar *property_name, void*
 static void _g_object_set_addr(gpointer object, const gchar *property_name, void* value) {
 	g_object_set(object, property_name, *(gpointer**)value, NULL);
 }
+static void _g_object_set_float(gpointer object, const gchar *property_name, gfloat value) {
+	g_object_set(object, property_name, value, NULL);
+}
 //static void _g_object_get(gpointer object, const gchar *property_name, void* value) {
 //  g_object_get(object, property_name, value, NULL);
 //}
